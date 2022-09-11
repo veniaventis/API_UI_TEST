@@ -38,6 +38,12 @@ public class MainTest extends BaseTest {
         alertsForm.acceptOpenedAlert();
         Assert.assertFalse(alertsForm.isThereAlertOnPage(), AssertMessages.notClosed("Alert"));
 
+        alertsForm.clickOnTimeAlertButton();
+        Assert.assertEquals(alertsForm.getAlertText(),"This alert appeared after 5 seconds", AssertMessages.notOpened("Time"));
+
+        alertsForm.acceptOpenedAlert();
+        Assert.assertFalse(alertsForm.isThereAlertOnPage(),AssertMessages.notClosed("Time"));
+
         alertsForm.clickOnConfirmButton();
         Assert.assertEquals(alertsForm.getAlertText(), "Do you confirm action?", AssertMessages.notOpened("Confirm"));
 

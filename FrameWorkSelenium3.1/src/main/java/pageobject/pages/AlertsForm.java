@@ -1,7 +1,7 @@
 package pageobject.pages;
 
 import pageobject.elements.TextElement;
-import framework.driver.pageobject.BaseForm;
+import framework.pageobject.BaseForm;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import pageobject.elements.Button;
@@ -9,6 +9,7 @@ import pageobject.elements.Button;
 public class AlertsForm extends BaseForm {
 
     private final Button toSeeAlertButton = new Button(By.xpath("//button[@id='alertButton']"), "Button:toSeeAlert");
+    private final Button timeAlertButton = new Button(By.id("timerAlertButton"),"Button:timeAlertButton");
     private final Button confirmBoxButton = new Button(By.xpath("//button[@id='confirmButton']"), "Button:toSeeConfirm");
     private final Button promptBoxButton = new Button(By.xpath("//button[@id='promtButton']"), "Button:toSeePrompt");
     private final TextElement confirmResult = new TextElement(By.xpath("//span[@id='confirmResult']"), "ConfirmResult");
@@ -21,6 +22,7 @@ public class AlertsForm extends BaseForm {
     public void clickOnToSeeAlertButton() {
         toSeeAlertButton.click();
     }
+    public void clickOnTimeAlertButton(){timeAlertButton.click();}
 
     public void clickOnConfirmButton() {
         confirmBoxButton.click();
