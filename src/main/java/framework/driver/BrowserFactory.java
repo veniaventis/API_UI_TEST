@@ -25,11 +25,7 @@ class BrowserFactory {
             }
             case "FIREFOX" -> {
                 WebDriverManager.firefoxdriver().setup();
-                return new FirefoxDriver();
-            }
-            case "EDGE" -> {
-                WebDriverManager.edgedriver().setup();
-                return new EdgeDriver();
+                return new FirefoxDriver(DriverOptions.getFireFoxOptions());
             }
             default -> throw new RuntimeException("Incorrect BrowserName in Configuration File");
         }
