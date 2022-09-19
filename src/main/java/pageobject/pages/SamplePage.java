@@ -1,0 +1,21 @@
+package pageobject.pages;
+
+import framework.logger.LoggerUtils;
+import pageobject.elements.TextElement;
+import framework.driver.pageobject.BaseForm;
+import org.openqa.selenium.By;
+
+public class SamplePage extends BaseForm {
+
+    private final TextElement pageTitle = new TextElement(By.xpath("//h1[@id='sampleHeading']"), "SamplePageTitle");
+
+    public SamplePage() {
+        super(By.xpath("//h1[@id='sampleHeading']"), "SamplePage");
+    }
+
+    public boolean isThisSamplePage() {
+        LoggerUtils.info("sample page checking");
+        return pageTitle.isTextToBePresentInElement("sample page") && this.isUrlContains("/sample");
+    }
+
+}

@@ -5,7 +5,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import framework.logger.LoggerUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 class BrowserFactory {
@@ -16,7 +15,7 @@ class BrowserFactory {
 
         String browserName = ConfigManager.getBrowserName().toUpperCase();
 
-        LoggerUtils.getLogger().warn(browserName + " browser running");
+        LoggerUtils.warn(browserName + " browser running");
 
         switch (browserName) {
             case "CHROME" -> {
