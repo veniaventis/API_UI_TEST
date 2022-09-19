@@ -2,6 +2,7 @@ package pageobject.pages;
 
 import framework.driver.pageobject.BaseForm;
 import framework.logger.LoggerUtils;
+import framework.utils.AlertUtils;
 import pageobject.elements.TextElement;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -40,20 +41,18 @@ public class AlertsForm extends BaseForm {
     public boolean isAppearPromptResult(String text) {
         return promptResult.isTextToBePresentInElement("You entered " + text);
     }
+    public boolean isThereAlertOnPage(){
+         return AlertUtils.isThereAlertOnPage();
+    }
 
     public String getAlertText() {
         LoggerUtils.info("get alert text");
-        return waitForAlert().getText();
-    }
-
-    public void acceptOpenedAlert() {
-        LoggerUtils.info("alert accepting");
-        waitForAlert().accept();
+        return AlertUtils.waitForAlert().getText();
     }
 
     public void sendKeysAndAcceptPrompt(String text) {
         LoggerUtils.info("prompt sending '" + text + "' and accepting");
-        Alert alert = waitForAlert();
+        Alert alert = AlertUtils.waitForAlert();
         alert.sendKeys(text);
         alert.accept();
     }

@@ -32,7 +32,6 @@ public final class DriverUtils{
 
     public static void quit() {
         LoggerUtils.warn("driver quiting");
-        driver.quit();
         SingletonDriver.resetDriver();
     }
 
@@ -40,9 +39,7 @@ public final class DriverUtils{
         if (driver.getWindowHandles().size() > 1) {
             LoggerUtils.info("window closing");
             driver.close();
-        } else {
-            driver.quit();
-        }
+        } else {SingletonDriver.resetDriver();}
     }
 
     public static void setImplicitlyWait(int seconds) {

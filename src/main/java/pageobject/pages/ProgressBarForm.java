@@ -10,7 +10,7 @@ import framework.utils.Parser;
 public class ProgressBarForm extends BaseForm {
 
     private final Button startStopButton = new Button(By.xpath("//button[@id='startStopButton']"), "Button:Start");
-    private final TextElement progressBar = new TextElement(By.xpath("//div[@class='progress-bar bg-info']"), "ProgressBar");
+    private final TextElement progressBar = new TextElement(By.xpath("//div[contains(@class,'progress-bar bg-info')]"), "ProgressBar");
 
     public ProgressBarForm() {
         super(By.xpath("//div[@id='progressBarContainer']"), "Form:ProgressBar");

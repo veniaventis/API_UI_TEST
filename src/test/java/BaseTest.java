@@ -12,6 +12,7 @@ public class BaseTest {
     public void setUp() {
         FileUtils.createDownloadDirectory();
         DriverUtils.initialize(ConfigManager.getImplicitlyWait());
+
     }
 
     @AfterMethod

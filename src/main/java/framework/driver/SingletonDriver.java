@@ -17,6 +17,7 @@ public class SingletonDriver {
     }
 
     public static void resetDriver() {
+        driver.quit();
         driver = null;
     }
 

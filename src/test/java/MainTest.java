@@ -35,19 +35,19 @@ public class MainTest extends BaseTest {
         alertsForm.clickOnToSeeAlertButton();
         Assert.assertEquals(alertsForm.getAlertText(), "You clicked a button", AssertMessages.notOpened("Alert"));
 
-        alertsForm.acceptOpenedAlert();
+        AlertUtils.acceptOpenedAlert();
         Assert.assertFalse(alertsForm.isThereAlertOnPage(), AssertMessages.notClosed("Alert"));
 
         alertsForm.clickOnTimeAlertButton();
         Assert.assertEquals(alertsForm.getAlertText(),"This alert appeared after 5 seconds", AssertMessages.notOpened("Time"));
 
-        alertsForm.acceptOpenedAlert();
+        AlertUtils.acceptOpenedAlert();
         Assert.assertFalse(alertsForm.isThereAlertOnPage(),AssertMessages.notClosed("Time"));
 
         alertsForm.clickOnConfirmButton();
         Assert.assertEquals(alertsForm.getAlertText(), "Do you confirm action?", AssertMessages.notOpened("Confirm"));
 
-        alertsForm.acceptOpenedAlert();
+        AlertUtils.acceptOpenedAlert();
         Assert.assertFalse(alertsForm.isThereAlertOnPage(), AssertMessages.notClosed("Confirm"));
         Assert.assertTrue(alertsForm.isAppearConfirmResult("You selected Ok"), "Confirm result does not match");
 
@@ -123,6 +123,7 @@ public class MainTest extends BaseTest {
         WindowUtils.closeCurrentWindow();
         Assert.assertTrue(browserWindowsForm.isOpened(), AssertMessages.notLoaded(browserWindowsForm.getName()));
 
+
         leftMenu.clickOnElementsSubmenu();
         leftMenu.clickOnLinksButton();
         Assert.assertTrue(linksForm.isOpened(), AssertMessages.notLoaded(linksForm.getName()));
@@ -168,12 +169,12 @@ public class MainTest extends BaseTest {
 
         String dateFromPage = datePickerForm.getDateFromPage();
         String dateAndTimeFromPage = datePickerForm.getDateAndTimeFromPage();
-        String currentDate = datePickerForm.getCurrentDate();
-        String currentDateAndTime = datePickerForm.getCurrentDateAndTime();
+        String currentDate = DataUtils.getCurrentDate();
+        String currentDateAndTime = DataUtils.getCurrentDateAndTime();
         Assert.assertEquals(dateFromPage, currentDate, AssertMessages.notMatch("Date"));
         Assert.assertEquals(dateAndTimeFromPage, currentDateAndTime, AssertMessages.notMatch("Date and Time"));
 
-        String next29Feb = datePickerForm.getNextDate(2, 29);
+        String next29Feb = DataUtils.getNextDate(2, 29);
         datePickerForm.sendDateToInput(next29Feb);
         dateFromPage = datePickerForm.getDateFromPage();
         Assert.assertEquals(next29Feb, dateFromPage, AssertMessages.notMatch("Date"));
