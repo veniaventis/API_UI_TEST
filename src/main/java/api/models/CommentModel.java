@@ -10,6 +10,7 @@ public class CommentModel {
     @JsonProperty("parents_stack")
     private String[] parentsStack;
 
+
     public void setCommentId(String commentId) {
         this.commentId = commentId;
     }
