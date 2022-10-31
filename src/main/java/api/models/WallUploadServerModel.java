@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class WallUploadServerResponse {
+public class WallUploadServerModel {
     @JsonProperty("album_id")
     private String albumId;
     @JsonProperty("upload_url")
