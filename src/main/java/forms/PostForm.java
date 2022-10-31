@@ -23,7 +23,7 @@ public class PostForm extends Form {
         lblPostText = getElementFactory().getLabel(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[contains(@class,'wall_post_text')]",authorId,id)),"Post text");
     }
 
-    public CommentForm newComment(String name, String id, String authorId){
+    public CommentForm newComment(String name, String id, String authorId) {
         CommentForm comment = new CommentForm(name,id,authorId,this.id,this.authorId);
         commentList.add(comment);
         return comment;
@@ -33,19 +33,19 @@ public class PostForm extends Form {
         return id;
     }
 
-    public String getPostText(){
+    public String getPostText() {
         return lblPostText.getText();
     }
 
-    public boolean isExist(){
+    public boolean isExist() {
         return this.state().waitForExist();
     }
 
-    public void clickLikeBtn(){
+    public void clickLikeBtn() {
         btnPostLike.click();
     }
 
-    public boolean isNotDisplayed(){
+    public boolean isNotDisplayed() {
         return this.state().waitForNotDisplayed();
     }
 }

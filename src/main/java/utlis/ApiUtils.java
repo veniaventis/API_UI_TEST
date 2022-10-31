@@ -11,7 +11,7 @@ import java.io.File;
 
 public class ApiUtils {
 
-    public static ResponseJsonModel sendGetRequest(String baseHttp ,String requestPath) {
+    public static ResponseJsonModel sendGetRequest(String requestPath) {
         HttpResponse<JsonNode> jsonResponse = null;
         try {
             jsonResponse = Unirest.get(requestPath).asJson();
@@ -21,7 +21,7 @@ public class ApiUtils {
         return new ResponseJsonModel(jsonResponse.getStatus(), jsonResponse.getBody());
     }
 
-    public static ResponseJsonModel sendPostRequest(String baseHttp, String requestPath) {
+    public static ResponseJsonModel sendPostRequest(String requestPath) {
         HttpResponse<JsonNode> jsonResponse = null;
         try {
             jsonResponse = Unirest.post(requestPath)

@@ -111,7 +111,7 @@
     "pollingInterval": 300
   },
   "logger": {
-    "language": "en",
+    "language": "ru",
     "logPageSource": true
   },
   "elementCache": {
