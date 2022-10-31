@@ -6,9 +6,6 @@ import lombok.Data;
 
 @Data
 public class SendPostModel {
+    @JsonProperty(value = "post_id")
     private String postId;
-
-    public SendPostModel(@JsonProperty(value = "post_id") String postId) {
-        this.postId = postId;
-    }
 }
