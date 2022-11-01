@@ -24,26 +24,26 @@ public class VkApiTest extends BaseTest {
     @Test
     public void vkGuiApiWallPostTest() {
         Logger.getInstance().info("Authorization in vk.com");
-        authForm.signIn(login,password);
+        authForm.signIn(login, password);
         Logger.getInstance().info("Opening 'My page'");
         navMenuForm.clickMyPageBtn();
         Logger.getInstance().info("Sending request to create post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
         String postId = ApiRequest.sendPostOnTheWall(autogenMessage);
-        PostForm sentPost = new PostForm("API post",postId, userId);
+        PostForm sentPost = new PostForm("API post", postId, userId);
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent text through API are not equal");
-        Assert.assertTrue(sentPost.isExist(),String.format("Post %s from user %s doesn't exist",sentPost.getId(), userId));
+        Assert.assertTrue(sentPost.isExist(), String.format("Post %s from user %s doesn't exist", sentPost.getId(), userId));
 
         Logger.getInstance().info("Sending request to edit post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        ApiRequest.editPostWithAttachment(autogenMessage,sentPost.getId(),photoFolderPath);
+        ApiRequest.editPostWithAttachment(autogenMessage, sentPost.getId(), photoFolderPath);
         ImageComparisonUtils.savePhoto(sentPost.getPhotoLink("style"));
-        Assert.assertEquals(sentPost.getPostText(), autogenMessage,"Posted text in GUI and sent edited text through API are equal");
-        Assert.assertEquals(ImageComparisonState.MATCH, ImageComparisonUtils.runComparison().getImageComparisonState(),"Post doesn't contain photo from previous step");
+        Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent edited text through API are equal");
+        Assert.assertEquals(ImageComparisonState.MATCH, ImageComparisonUtils.runComparison().getImageComparisonState(), "Post doesn't contain photo from previous step");
 
         Logger.getInstance().info("Sending request to leave a comment to post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        String commentId = ApiRequest.sendCommentToPost(autogenMessage,sentPost.getId());
+        String commentId = ApiRequest.sendCommentToPost(autogenMessage, sentPost.getId());
         CommentForm sentComment = sentPost.newComment("API comment", commentId, userId);
         Assert.assertTrue(sentComment.isDisplayed(), String.format("Post %s from user %s doesn't exist", sentComment.getId(), userId));
 
@@ -53,6 +53,6 @@ public class VkApiTest extends BaseTest {
 
         Logger.getInstance().info("Sending request to delete post on the wall");
         ApiRequest.deletePost(sentPost.getId());
-        Assert.assertTrue(sentPost.isNotDisplayed(),String.format("Post %s from user %s still exist",sentPost.getId(), userId));
+        Assert.assertTrue(sentPost.isNotDisplayed(), String.format("Post %s from user %s still exist", sentPost.getId(), userId));
     }
 }

@@ -15,16 +15,16 @@ public class PostForm extends Form {
     private final ILabel lblPostText;
     private final List<CommentForm> commentList = new LinkedList<>();
 
-    public PostForm(String name,String id, String authorId) {
-        super(By.xpath(String.format("//div[@id='page_wall_posts']//div[@data-post-id='%s_%s']",authorId,id)), name);
+    public PostForm(String name, String id, String authorId) {
+        super(By.xpath(String.format("//div[@id='page_wall_posts']//div[@data-post-id='%s_%s']", authorId, id)), name);
         this.id = id;
         this.authorId = authorId;
-        btnPostLike = getElementFactory().getButton(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[@data-section-ref='reactions-button']",authorId,id)),"Like button");
-        lblPostText = getElementFactory().getLabel(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[contains(@class,'wall_post_text')]",authorId,id)),"Post text");
+        btnPostLike = getElementFactory().getButton(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[@data-section-ref='reactions-button']", authorId, id)), "Like button");
+        lblPostText = getElementFactory().getLabel(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[contains(@class,'wall_post_text')]", authorId, id)), "Post text");
     }
 
     public CommentForm newComment(String name, String id, String authorId) {
-        CommentForm comment = new CommentForm(name,id,authorId,this.id,this.authorId);
+        CommentForm comment = new CommentForm(name, id, authorId, this.id, this.authorId);
         commentList.add(comment);
         return comment;
     }

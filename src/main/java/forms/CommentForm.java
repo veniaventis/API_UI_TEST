@@ -5,11 +5,11 @@ import aquality.selenium.forms.Form;
 import org.openqa.selenium.By;
 
 public class CommentForm extends Form {
-    private String id;
-    private String authorId;
-    private String postId;
-    private String postAuthorId;
-    private IButton btnShowNextReplies;
+    private final String id;
+    private final String authorId;
+    private final String postId;
+    private final String postAuthorId;
+    private final IButton btnShowNextReplies;
 
     protected CommentForm(String name, String id, String authorId, String postId, String postAuthorId) {
         super(By.xpath(String.format("//div[@id='page_wall_posts']//div[contains(@class,'replies_list')]/div[@data-post-id='%s_%s' and contains(@class,'reply')]", authorId, id)), name);

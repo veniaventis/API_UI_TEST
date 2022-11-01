@@ -33,7 +33,7 @@ public class ApiRequest {
 
     @SneakyThrows
     public static SavePhotoModel getSavedPhotoResponse(String ownerId, String filePath) {
-        String request = String.format("%s%s?user_id=%s&access_token=%s&v=%s",BASE_URL, Methods.PHOTO_UPLOAD_SERVER.getMethod(), ownerId, ACCESS_TOKEN, API_VERSION);
+        String request = String.format("%s%s?user_id=%s&access_token=%s&v=%s", BASE_URL, Methods.PHOTO_UPLOAD_SERVER.getMethod(), ownerId, ACCESS_TOKEN, API_VERSION);
         ResponseJsonModel jsonResponse = ApiUtils.sendGetRequest(request);
         WallUploadServerModel wallUploadServerResponse = new ObjectMapper().readValue(jsonResponse.getBody().getObject().get("response").toString(), WallUploadServerModel.class);
         ResponseJsonModel jsonResponse1 = ApiUtils.uploadResponse(wallUploadServerResponse.getUploadUrl(), filePath, "photo");

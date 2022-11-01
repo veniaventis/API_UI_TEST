@@ -6,7 +6,6 @@ import com.github.romankh3.image.comparison.model.ImageComparisonResult;
 import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
