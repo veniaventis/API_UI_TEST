@@ -7,7 +7,7 @@ import utlis.ConfigUtils;
 public abstract class BaseTest {
     @BeforeMethod
     public void setUp() {
-        Browser browser = AqualityServices.getBrowserFactory().getBrowser();
+        Browser browser = AqualityServices.getBrowser();
         browser.maximize();
         browser.goTo(ConfigUtils.getSettingsData("url"));
         browser.waitForPageToLoad();

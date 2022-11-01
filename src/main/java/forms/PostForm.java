@@ -9,11 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PostForm extends Form {
-    String id;
-    String authorId;
-    IButton btnPostLike;
-    ILabel lblPostText;
-    List<CommentForm> commentList = new LinkedList<>();
+    private final String id;
+    private final String authorId;
+    private final IButton btnPostLike;
+    private final ILabel lblPostText;
+    private final List<CommentForm> commentList = new LinkedList<>();
 
     public PostForm(String name,String id, String authorId) {
         super(By.xpath(String.format("//div[@id='page_wall_posts']//div[@data-post-id='%s_%s']",authorId,id)), name);
@@ -35,6 +35,11 @@ public class PostForm extends Form {
 
     public String getPostText() {
         return lblPostText.getText();
+    }
+
+    public String getPhotoLink(String attribute) {
+        String link = getElementFactory().getLink(By.xpath(String.format("//div[contains(@id,'%s') and contains(@class,'wall_post_cont _wall_post_con')]//child::a", id)), "Photo Link").getAttribute(attribute);
+        return link.substring(link.indexOf("https"));
     }
 
     public boolean isExist() {

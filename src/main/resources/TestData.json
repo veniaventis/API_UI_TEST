@@ -1,5 +1,5 @@
 {
   "apiVersion": "5.131",
-  "uploadPath": "src/main/resources/",
-  "uploadPhotoName": "test.png"
+  "uploadImagePath": "src/main/resources/test.png",
+  "downloadPath": "src/main/resources/downloaded.png"
 }
