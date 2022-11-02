@@ -1,4 +1,5 @@
 import api.ApiRequest;
+import api.models.SendPostModel;
 import com.github.romankh3.image.comparison.model.ImageComparisonState;
 import forms.AuthenticationPage;
 import forms.CommentForm;
@@ -29,8 +30,8 @@ public class VkApiTest extends BaseTest {
         navMenuForm.clickMyPageBtn();
         Logger.getInstance().info("Sending request to create post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        String postId = ApiRequest.sendPostOnTheWall(autogenMessage);
-        PostForm sentPost = new PostForm("API post", postId, userId);
+        SendPostModel sendPostModel = ApiRequest.sendPostOnTheWall(autogenMessage);
+        PostForm sentPost = new PostForm("API post", sendPostModel.getPostId(), userId);
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent text through API are not equal");
         Assert.assertTrue(sentPost.isExist(), String.format("Post %s from user %s doesn't exist", sentPost.getId(), userId));
 
