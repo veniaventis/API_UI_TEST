@@ -1,4 +1,4 @@
-package forms;
+package pages.forms;
 
 import aquality.selenium.elements.interfaces.IButton;
 import aquality.selenium.elements.interfaces.ILabel;
@@ -9,18 +9,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PostForm extends Form {
-    private final String id;
-    private final String authorId;
-    private final IButton btnPostLike;
-    private final ILabel lblPostText;
+    private String id;
+    private String authorId;
+    private final IButton  btnPostLike = getElementFactory().getButton(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[@data-section-ref='reactions-button']", authorId, id)), "Like button");
+    private final ILabel  lblPostText = getElementFactory().getLabel(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[contains(@class,'wall_post_text')]", authorId, id)), "Post text");
+
     private final List<CommentForm> commentList = new LinkedList<>();
 
     public PostForm(String name, String id, String authorId) {
         super(By.xpath(String.format("//div[@id='page_wall_posts']//div[@data-post-id='%s_%s']", authorId, id)), name);
         this.id = id;
         this.authorId = authorId;
-        btnPostLike = getElementFactory().getButton(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[@data-section-ref='reactions-button']", authorId, id)), "Like button");
-        lblPostText = getElementFactory().getLabel(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//div[contains(@class,'wall_post_text')]", authorId, id)), "Post text");
     }
 
     public CommentForm newComment(String name, String id, String authorId) {

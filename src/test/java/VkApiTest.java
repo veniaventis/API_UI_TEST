@@ -1,21 +1,23 @@
 import api.ApiRequest;
 import com.github.romankh3.image.comparison.model.ImageComparisonState;
-import forms.AuthenticationPage;
-import forms.CommentForm;
-import forms.NavigationMenuForm;
-import forms.PostForm;
+import pages.AuthenticationPage;
+import pages.forms.CommentForm;
+import pages.forms.PostForm;
 import aquality.selenium.core.logging.Logger;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.FeedsPage;
+import pages.MainPage;
 import utlis.ConfigUtils;
 import utlis.ImageComparisonUtils;
 
 public class VkApiTest extends BaseTest {
     private final int randomStringLength = 10;
     private String autogenMessage;
-    private final AuthenticationPage authForm = new AuthenticationPage();
-    private final NavigationMenuForm navMenuForm = new NavigationMenuForm();
+    private final AuthenticationPage authenticationPage = new AuthenticationPage();
+    private final MainPage mainPage = new MainPage();
+    private final FeedsPage feedsPage = new FeedsPage();
     private final String login = ConfigUtils.getConfidentialData("userLogin");
     private final String password = ConfigUtils.getConfidentialData("password");
     private final String userId = ConfigUtils.getConfidentialData("userID");
@@ -24,10 +26,17 @@ public class VkApiTest extends BaseTest {
 
     @Test
     public void vkGuiApiWallPostTest() {
-        Logger.getInstance().info("Authorization in vk.com");
-        authForm.signIn(login, password);
+        Assert.assertTrue(mainPage.state().isDisplayed(), "Main Page doesn't open");
+
+        mainPage.getLoginForm().signIn(login);
+        Assert.assertTrue(authenticationPage.state().waitForDisplayed(), "Authentication Page hasn't been loaded");
+
+        authenticationPage.getPasswordForm().signIn(password);
+        Assert.assertTrue(feedsPage.state().waitForDisplayed(),"Feed Page hasn't been loaded");
+
         Logger.getInstance().info("Opening 'My page'");
-        navMenuForm.clickMyPageBtn();
+        feedsPage.getNavigationMenuForm().clickMyPageBtn();
+
         Logger.getInstance().info("Sending request to create post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
         String postId = ApiRequest.sendPostOnTheWall(autogenMessage);
@@ -37,7 +46,7 @@ public class VkApiTest extends BaseTest {
 
         Logger.getInstance().info("Sending request to edit post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        ApiRequest.editPostWithAttachment( autogenMessage, sentPost.getId(),String.format("%s%s",photoFolderPath,imageName));
+        ApiRequest.editPostWithAttachment(autogenMessage, sentPost.getId(),String.format("%s%s",photoFolderPath,imageName));
         ImageComparisonUtils.savePhoto(sentPost.getPhotoLink("style"));
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent edited text through API are equal");
         Assert.assertEquals(ImageComparisonState.MATCH, ImageComparisonUtils.runComparison().getImageComparisonState(), "Post doesn't contain photo from previous step");
