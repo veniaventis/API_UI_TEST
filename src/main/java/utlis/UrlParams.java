@@ -2,8 +2,8 @@ package utlis;
 
 
 public enum UrlParams {
-    OWNER_ID("owner_id"),
-    ACCESS_TOKEN("access_token"),
+    OWNER__ID("owner_id"),
+    ACCESS__TOKEN("access_token"),
     VERSION("v"),
     USER_ID("user_id"),
     POST_ID("post_id"),
