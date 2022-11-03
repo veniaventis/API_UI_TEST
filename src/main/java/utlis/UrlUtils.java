@@ -13,11 +13,16 @@ public class UrlUtils {
     public static final String ACCESS_TOKEN = ConfigUtils.getConfidentialData("accessToken");
     public static final String API_VERSION = ConfigUtils.getTestData("apiVersion");
 
+    public static String getOwnerId() {
+        return OWNER_ID;
+    }
+
+
     public static String setUrl(String method, String params) {
         return String.format("%s%s%s",BASE_URL, method,params);
     }
     @SneakyThrows
-    public static String sendPostUrl(String message) {
+    public static String sendPostUri( String message) {
         return setUrl(Methods.SEND_POST.getMethod(),
                 new URIBuilder().setParameter(OWNER__ID.getParams(), OWNER_ID)
                 .addParameter(MESSAGE.getParams(), message)
@@ -26,7 +31,7 @@ public class UrlUtils {
     }
 
     @SneakyThrows
-    public static String editPostWithAttachmentUrl(String postId, String message, String sentPhotoID) {
+    public static String editPostWithAttachmentUri(String postId, String message, String sentPhotoID) {
         return setUrl(Methods.EDIT_POST.getMethod(),
                 new URIBuilder().setParameter(OWNER__ID.getParams(), OWNER_ID)
                 .addParameter(POST_ID.getParams(), postId)
@@ -80,5 +85,9 @@ public class UrlUtils {
                 .addParameter(POST_ID.getParams(), postId)
                 .addParameter(ACCESS__TOKEN.getParams(), ACCESS_TOKEN)
                 .addParameter(VERSION.getParams(),API_VERSION).build().toString());
+    }
+
+    public static String getAccessToken() {
+        return ACCESS_TOKEN;
     }
 }

@@ -19,7 +19,8 @@ public class VkApiTest extends BaseTest {
     private final String login = ConfigUtils.getConfidentialData("userLogin");
     private final String password = ConfigUtils.getConfidentialData("password");
     private final String userId = ConfigUtils.getConfidentialData("userID");
-    private final String photoFolderPath = ConfigUtils.getTestData("uploadImagePath");
+    private final String photoFolderPath = ConfigUtils.getTestData("imagePath");
+    private final String imageName = ConfigUtils.getTestData("uploadImageName");
 
     @Test
     public void vkGuiApiWallPostTest() {
@@ -36,7 +37,7 @@ public class VkApiTest extends BaseTest {
 
         Logger.getInstance().info("Sending request to edit post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        ApiRequest.editPostWithAttachment(autogenMessage, sentPost.getId(), photoFolderPath);
+        ApiRequest.editPostWithAttachment( autogenMessage, sentPost.getId(),String.format("%s%s",photoFolderPath,imageName));
         ImageComparisonUtils.savePhoto(sentPost.getPhotoLink("style"));
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent edited text through API are equal");
         Assert.assertEquals(ImageComparisonState.MATCH, ImageComparisonUtils.runComparison().getImageComparisonState(), "Post doesn't contain photo from previous step");
