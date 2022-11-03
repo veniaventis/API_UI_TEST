@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 
 public class PasswordForm extends Form {
     private final ITextBox txbPassword = getElementFactory().getTextBox(By.xpath("//div[contains(@class,'vkc__Password__Wrapper')]//child::input"), "Password field");
-    private final IButton btnContinue = getElementFactory().getButton(By.xpath("//button[contains(@class,'vkuiButton--clr-accent')]"), "Login button");
+    private final IButton btnContinue = getElementFactory().getButton(By.xpath("//button[contains(@class,'vkuiButton--clr-accent ')]"), "Login button");
 
 
     public PasswordForm() {
