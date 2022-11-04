@@ -9,13 +9,14 @@ public class CommentForm extends Form {
     private final String authorId;
     private final String postId;
     private final IButton btnShowNextReplies;
+    private final static String BTN_SHOW_NEXT_REPLIES = "//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//child::a[contains(@class,'replies_next_main')]";
 
     protected CommentForm(String name, String id, String authorId, String postId, String postAuthorId) {
-        super(By.xpath(String.format("//div[@id='page_wall_posts']//div[contains(@class,'replies_list')]/div[@data-post-id='%s_%s' and contains(@class,'reply')]", authorId, id)), name);
+        super(By.xpath(String.format("//div[@id='page_wall_posts']//child::div[contains(@class,'replies_list')]/div[@data-post-id='%s_%s' and contains(@class,'reply')]", authorId, id)), name);
         this.id = id;
         this.postId = postId;
         this.authorId = authorId;
-        btnShowNextReplies = getElementFactory().getButton(By.xpath(String.format("//div[@id='page_wall_posts']/div[@data-post-id='%s_%s']//a[contains(@class,'replies_next_main')]", postAuthorId, postId)), "Next replies button");
+        btnShowNextReplies = getElementFactory().getButton(By.xpath(String.format(BTN_SHOW_NEXT_REPLIES, postAuthorId, postId)), "Next replies button");
     }
 
     @Override
@@ -25,5 +26,4 @@ public class CommentForm extends Form {
         }
         return this.state().waitForDisplayed();
     }
-
 }

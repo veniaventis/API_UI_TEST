@@ -3,6 +3,7 @@ import api.models.SendPostModel;
 import com.github.romankh3.image.comparison.model.ImageComparisonState;
 import org.apache.http.HttpStatus;
 import pages.AuthenticationPage;
+import pages.MyPage;
 import pages.forms.CommentForm;
 import pages.forms.PostForm;
 import aquality.selenium.core.logging.Logger;
@@ -17,11 +18,13 @@ import utlis.ImageComparisonUtils;
 import static api.ApiRequest.RESPONSE_JSON;
 
 public class VkApiTest extends BaseTest {
-    private final int randomStringLength = 10;
+    private final int randomStringLength = Integer.parseInt(ConfigUtils.getTestData("randomStringLength"));
+    private final String attribute = ConfigUtils.getTestData("attribute");
     private String autogenMessage;
     private final AuthenticationPage authenticationPage = new AuthenticationPage();
     private final MainPage mainPage = new MainPage();
     private final FeedsPage feedsPage = new FeedsPage();
+    private final MyPage myPage = new MyPage();
     private final String login = ConfigUtils.getConfidentialData("userLogin");
     private final String password = ConfigUtils.getConfidentialData("password");
     private final String userId = ConfigUtils.getConfidentialData("userID");
@@ -47,7 +50,7 @@ public class VkApiTest extends BaseTest {
         Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
                 String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
 
-        PostForm sentPost = new PostForm("API post", sendPostModel.getPostId(), userId);
+        PostForm sentPost = myPage.getPostForm("API post", sendPostModel.getPostId(), userId);
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent text through API are not equal");
         Assert.assertTrue(sentPost.state().waitForExist(), String.format("Post %s from user %s doesn't exist", sendPostModel.getPostId(), userId));
 
@@ -56,7 +59,7 @@ public class VkApiTest extends BaseTest {
         ApiRequest.editPostWithAttachment(autogenMessage, sendPostModel.getPostId(),String.format("%s%s",photoFolderPath,imageName));
         Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
                 String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
-        ImageComparisonUtils.savePhoto(sentPost.getPhotoLink("style"));
+        ImageComparisonUtils.savePhoto(sentPost.getPhotoLink(attribute));
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent edited text through API are equal");
         Assert.assertEquals(ImageComparisonState.MATCH, ImageComparisonUtils.runComparison().getImageComparisonState(), "Post doesn't contain photo from previous step");
 
@@ -67,9 +70,8 @@ public class VkApiTest extends BaseTest {
                 String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
 
         CommentForm sentComment = sentPost.newComment("API comment", commentId, userId);
-        Assert.assertTrue(sentComment.state().isDisplayed(), String.format("Post %s from user %s doesn't exist", commentId, userId));
+        Assert.assertTrue(sentComment.isDisplayed(), String.format("Post %s from user %s doesn't exist", commentId, userId));
 
-        Logger.getInstance().info("Clicking 'like' on the post");
         sentPost.clickLikeBtn();
         Assert.assertTrue(ApiRequest.isLikedPost(sendPostModel.getPostId(), userId), String.format("Post %s doesn't have 'like reaction' from user %s", sendPostModel.getPostId(), userId));
         Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
@@ -79,6 +81,6 @@ public class VkApiTest extends BaseTest {
         ApiRequest.deletePost(sendPostModel.getPostId());
         Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
                 String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
-        Assert.assertTrue(sentPost.isNotDisplayed(), String.format("Post %s from user %s still exist", sendPostModel.getPostId(), userId));
+        Assert.assertTrue(sentPost.state().waitForNotExist(), String.format("Post %s from user %s still exist", sendPostModel.getPostId(), userId));
     }
 }

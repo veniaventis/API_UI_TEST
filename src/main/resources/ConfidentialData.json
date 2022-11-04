@@ -1,5 +1,7 @@
 {
   "accessToken": "",
+  "ownerId": "",
+  "userLogin": "",
   "password": "",
-  "userID":""
+  "userID": ""
 }

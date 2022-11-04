@@ -14,14 +14,14 @@ public class ApiRequest {
     public static ResponseJsonModel RESPONSE_JSON = null;
     @SneakyThrows
     public static SendPostModel sendPostOnTheWall(String message) {
-        String request = UrlUtils.sendPostUri( message);
+        String request = UrlUtils.sendPostUrl( message);
         RESPONSE_JSON = ApiUtils.sendPostRequest(request);
         return JsonUtils.jsonStringModelResponse(RESPONSE_JSON.getBody(), SendPostModel.class);
     }
 
     public static String editPostWithAttachment(String message, String postId, String filePath) {
         String sentPhotoId = getSavedPhotoResponse(UrlUtils.OWNER_ID, filePath).getId();
-        String request = UrlUtils.editPostWithAttachmentUri(postId, message, sentPhotoId);
+        String request = UrlUtils.editPostWithAttachmentUrl(postId, message, sentPhotoId);
         RESPONSE_JSON = ApiUtils.sendPostRequest(request);
         return RESPONSE_JSON.getBody().getObject().get("response").toString();
     }

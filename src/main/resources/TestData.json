@@ -3,5 +3,8 @@
   "imagePath": "src/main/resources/",
   "uploadImageName": "test.png",
   "downloadImageName": "downloaded.png",
-  "imageExtension": "png"
+  "imageExtension": "png",
+  "randomStringLength": 10,
+  "attribute": "style",
+  "protocol": "https"
 }
