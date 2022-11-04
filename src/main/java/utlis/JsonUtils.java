@@ -1,8 +1,5 @@
 package utlis;
 
-
-
-import api.models.SavePhotoModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.JsonNode;
 import lombok.SneakyThrows;

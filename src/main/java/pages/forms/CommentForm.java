@@ -26,7 +26,4 @@ public class CommentForm extends Form {
         return this.state().waitForDisplayed();
     }
 
-    public String getId() {
-        return id;
-    }
 }
