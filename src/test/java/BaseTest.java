@@ -10,7 +10,6 @@ public abstract class BaseTest {
         Browser browser = AqualityServices.getBrowser();
         browser.maximize();
         browser.goTo(ConfigUtils.getSettingsData("url"));
-        browser.waitForPageToLoad();
     }
 
     @AfterMethod

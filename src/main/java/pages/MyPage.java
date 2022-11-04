@@ -10,7 +10,7 @@ public class MyPage extends Form {
         super(By.xpath("//div[@class='Profile ProfileBase']"),"My Page");
     }
 
-    public PostForm getPostForm() {
-        new PostForm();
-    }
+//    public PostForm getPostForm() {
+//        new PostForm();
+//    }
 }

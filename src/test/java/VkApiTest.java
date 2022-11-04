@@ -1,5 +1,7 @@
 import api.ApiRequest;
+import api.models.SendPostModel;
 import com.github.romankh3.image.comparison.model.ImageComparisonState;
+import org.apache.http.HttpStatus;
 import pages.AuthenticationPage;
 import pages.forms.CommentForm;
 import pages.forms.PostForm;
@@ -11,6 +13,8 @@ import pages.FeedsPage;
 import pages.MainPage;
 import utlis.ConfigUtils;
 import utlis.ImageComparisonUtils;
+
+import static api.ApiRequest.RESPONSE_JSON;
 
 public class VkApiTest extends BaseTest {
     private final int randomStringLength = 10;
@@ -39,30 +43,42 @@ public class VkApiTest extends BaseTest {
 
         Logger.getInstance().info("Sending request to create post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        String postId = ApiRequest.sendPostOnTheWall(autogenMessage);
-        PostForm sentPost = new PostForm("API post", postId, userId);
+        SendPostModel sendPostModel = ApiRequest.sendPostOnTheWall(autogenMessage);
+        Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
+                String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
+
+        PostForm sentPost = new PostForm("API post", sendPostModel.getPostId(), userId);
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent text through API are not equal");
-        Assert.assertTrue(sentPost.isExist(), String.format("Post %s from user %s doesn't exist", sentPost.getId(), userId));
+        Assert.assertTrue(sentPost.state().waitForExist(), String.format("Post %s from user %s doesn't exist", sendPostModel.getPostId(), userId));
 
         Logger.getInstance().info("Sending request to edit post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        ApiRequest.editPostWithAttachment(autogenMessage, sentPost.getId(),String.format("%s%s",photoFolderPath,imageName));
+        ApiRequest.editPostWithAttachment(autogenMessage, sendPostModel.getPostId(),String.format("%s%s",photoFolderPath,imageName));
+        Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
+                String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
         ImageComparisonUtils.savePhoto(sentPost.getPhotoLink("style"));
         Assert.assertEquals(sentPost.getPostText(), autogenMessage, "Posted text in GUI and sent edited text through API are equal");
         Assert.assertEquals(ImageComparisonState.MATCH, ImageComparisonUtils.runComparison().getImageComparisonState(), "Post doesn't contain photo from previous step");
 
         Logger.getInstance().info("Sending request to leave a comment to post on the wall");
         autogenMessage = RandomStringUtils.randomAlphanumeric(randomStringLength);
-        String commentId = ApiRequest.sendCommentToPost(autogenMessage, sentPost.getId());
+        String commentId = ApiRequest.sendCommentToPost(autogenMessage, sendPostModel.getPostId());
+        Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
+                String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
+
         CommentForm sentComment = sentPost.newComment("API comment", commentId, userId);
-        Assert.assertTrue(sentComment.isDisplayed(), String.format("Post %s from user %s doesn't exist", sentComment.getId(), userId));
+        Assert.assertTrue(sentComment.state().isDisplayed(), String.format("Post %s from user %s doesn't exist", commentId, userId));
 
         Logger.getInstance().info("Clicking 'like' on the post");
         sentPost.clickLikeBtn();
-        Assert.assertTrue(ApiRequest.isLikedPost(sentPost.getId(), userId), String.format("Post %s doesn't have 'like reaction' from user %s", sentPost.getId(), userId));
+        Assert.assertTrue(ApiRequest.isLikedPost(sendPostModel.getPostId(), userId), String.format("Post %s doesn't have 'like reaction' from user %s", sendPostModel.getPostId(), userId));
+        Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
+                String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
 
         Logger.getInstance().info("Sending request to delete post on the wall");
-        ApiRequest.deletePost(sentPost.getId());
-        Assert.assertTrue(sentPost.isNotDisplayed(), String.format("Post %s from user %s still exist", sentPost.getId(), userId));
+        ApiRequest.deletePost(sendPostModel.getPostId());
+        Assert.assertEquals(RESPONSE_JSON.getStatusCode(), HttpStatus.SC_OK,
+                String.format("status code is not %d status is:%d", HttpStatus.SC_OK, RESPONSE_JSON.getStatusCode()));
+        Assert.assertTrue(sentPost.isNotDisplayed(), String.format("Post %s from user %s still exist", sendPostModel.getPostId(), userId));
     }
 }
